@@ -1,3 +1,4 @@
+#anti cach1
 mov eax, fs:[0x30];
 mov eax, [eax+ 0x18];
 mov eax, [eax+ 0x0c];
@@ -13,68 +14,6 @@ popup:
 
 tài liệu tham khảo
 https://anti-debug.checkpoint.com/techniques/debug-flags.html#manual-checks-peb-beingdebugged-flag
-https://rayanfam.com/topics/defeating-malware-anti-vm-techniques-cpuid-based-instructions/
-
-
-
-clock detection
-rdtsc
-xor ecx,ecx
-add ecx,eax
-rdtsc
-sub eax,ecx
-cmp eax,0xFF
-jb popup
-main:
-mov    eax,0x4094e4
-call   eax
-popup:
-https://www.programmersought.com/article/47314314434/
-
-Ntgobalflag
-\x31\xC0\xB8\x00\x00\x00\x40\x0F\xA2\x81\xF9\x72\x65\x56\x4D\x74\x18\x81\xFA\x77\x61\x72\x65\x74\x10\x64\xA1\x30\x00\x00\x00\x80\x78\x68\x70\x74\x04\x31\xC0\xEB\x07\xB8
-https://www.ired.team/offensive-security/code-injection-process-injection/writing-and-compiling-shellcode-in-c
-https://lttqstudy.wordpress.com/2011/08/31/anti-debug/
-
-
-
-
-//heap flag
-cmp al,6
-cmc
-sbb ebx, ebx
-and ebx, 0x34
-mov eax, fs:[0x30]
-mov eax, [eax+0x18]
-mov eax, [eax+ebx+0x0c]
-bswap eax
-and al, 0x0ef
-cmp eax, 0x62000040
-je main
-jmp popup
-main:
-mov    eax,0x4094e4
-call   eax
-popup:
-
-//heap force flag
-cmp al,6
-cmc
-sbb ebx, ebx
-and ebx, 0x34
-mov eax, fs:[0x30]
-mov eax, [eax+0x18]
-cmp byte ptr [eax+ebx+0x10], 0x40000060
-je main
-xor eax, eax
-inc eax
-cpuid
-bt ecx, 0x1f
-jnb popup
-main:
-mov    eax,0x4094e4
-call   eax
-popup:
-
+https://community.broadcom.com/symantecenterprise/communities/community-home/librarydocuments/viewdocument?DocumentKey=230d68b2-c80f-4436-9c09-ff84d049da33&CommunityKey=1ecf5f55-9545-44d6-b0f4-4e4a7f5f5e68&tab=librarydocuments
 
 
